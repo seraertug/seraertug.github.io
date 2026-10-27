@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sera Ertuğ</title>
+<meta name="description" content="Sera Ertuğ — connecting fields that don't seem related, using data and AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f3ee; --card:#fffdf9; --ink:#1d1b18; --muted:#7a746b; --line:#e6e0d6;
+    --blue:#7cc3f2; --green:#7fd4a1; --yellow:#f4cf5d; --coral:#f08a78; --plum:#b48be0;
+    --radius:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 16px 56px;display:grid;gap:20px;grid-template-columns:1fr}
+  @media(min-width:900px){.wrap{grid-template-columns:320px 1fr;padding:32px 24px 64px;align-items:start}}
+
+  /* ---------- profile card ---------- */
+  .profile{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;text-align:center}
+  @media(min-width:900px){.profile{position:sticky;top:32px}}
+  .photo{width:150px;height:190px;margin:0 auto 18px;border-radius:999px;overflow:hidden;background:linear-gradient(160deg,var(--yellow),var(--coral));display:grid;place-items:center;font-family:Fraunces,serif;font-size:44px;color:#fff}
+  .photo img{width:100%;height:100%;object-fit:cover}
+  .profile h1{font-family:Fraunces,serif;font-weight:600;font-size:28px;line-height:1.15;letter-spacing:-.01em}
+  .profile .where{color:var(--muted);font-size:14px;margin-top:6px}
+  .now{margin:22px 0 4px;text-align:left;background:#fbf6ea;border-radius:14px;padding:14px 16px}
+  .now span{font-family:Caveat,cursive;font-size:22px;color:#c26b3a;display:block;line-height:1}
+  .now p{font-size:14px;margin-top:6px}
+  .links{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+  .links a{font-size:13px;font-weight:500;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:7px 14px;background:#fff;transition:background .2s}
+  .links a:hover{background:#f1ece3}
+  .cv{display:block;margin-top:14px;background:var(--ink);color:#fff!important;text-decoration:none;border-radius:999px;padding:11px;font-size:14px;font-weight:500}
+
+  /* ---------- main ---------- */
+  .main{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 20px}
+  @media(min-width:700px){.main{padding:36px 40px}}
+  .vision{font-family:Fraunces,serif;font-weight:600;font-size:clamp(26px,3.6vw,40px);line-height:1.15;letter-spacing:-.02em;margin:6px 0 36px;max-width:22ch}
+  .vision mark{background:linear-gradient(transparent 62%,color-mix(in srgb,var(--yellow) 70%,transparent) 62%);color:inherit;padding:0 2px}
+
+  /* ---------- folders ---------- */
+  .folders{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 18px;max-width:640px}
+  @media(min-width:700px){.folders{gap:40px 30px}}
+  .folder{all:unset;cursor:pointer;display:block;position:relative;aspect-ratio:1.25/1;--c:var(--blue)}
+  .folder:focus-visible{outline:3px solid var(--ink);outline-offset:6px;border-radius:14px}
+  .folder .back{position:absolute;inset:8% 0 0 0;background:var(--c);filter:brightness(.88);border-radius:12px}
+  .folder .back::before{content:"";position:absolute;top:-9%;left:0;width:42%;height:14%;background:inherit;border-radius:10px 10px 0 0}
+  .folder .paper{position:absolute;left:12%;right:12%;top:2%;height:60%;border-radius:8px;border:1px solid rgba(29,27,24,.12);box-shadow:0 6px 14px -6px rgba(29,27,24,.35);transition:transform .35s cubic-bezier(.2,.8,.2,1);overflow:hidden;
+    background:
+      linear-gradient(color-mix(in srgb,var(--c) 70%,#1d1b18) 0 0) 14% 18%/38% 7% no-repeat,
+      repeating-linear-gradient(to bottom,transparent 0 11px,rgba(29,27,24,.10) 11px 13px) 14% 42%/72% 50% no-repeat,
+      #fff}
+  .folder .paper.p2{background:
+      linear-gradient(color-mix(in srgb,var(--c) 45%,#fff) 0 0) 50% 22%/72% 46% no-repeat,
+      repeating-linear-gradient(to bottom,transparent 0 11px,rgba(29,27,24,.10) 11px 13px) 14% 82%/72% 18% no-repeat,
+      #fdfbf7}
+  .folder .paper img{width:100%;height:100%;object-fit:cover}
+  .folder .paper.p1{transform:rotate(-6deg) translateY(6%)}
+  .folder .paper.p2{transform:rotate(5deg) translateY(4%);left:20%;right:6%}
+  .folder:hover .paper.p1{transform:rotate(-10deg) translateY(-8%)}
+  .folder:hover .paper.p2{transform:rotate(9deg) translateY(-12%)}
+  .folder .front{position:absolute;inset:30% 0 0 0;background:var(--c);border-radius:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 18px -10px rgba(0,0,0,.35);display:flex;flex-direction:column;justify-content:flex-end;padding:12px 14px;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+  .folder:hover .front{transform:perspective(600px) rotateX(-8deg)}
+  .folder .front b{font-size:14px;font-weight:600;line-height:1.2}
+  .folder .front small{font-size:12px;opacity:.7;margin-top:2px}
+
+  /* ---------- drawer ---------- */
+  .shade{position:fixed;inset:0;background:rgba(29,27,24,.35);opacity:0;pointer-events:none;transition:opacity .25s;z-index:10}
+  .shade.on{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;z-index:11;inset:auto 0 0 0;max-height:88vh;background:var(--card);border-radius:24px 24px 0 0;transform:translateY(105%);transition:transform .35s cubic-bezier(.2,.8,.2,1);overflow:auto;padding:22px 16px 40px}
+  @media(min-width:900px){.drawer{inset:0 0 0 auto;width:min(860px,94vw);max-height:none;border-radius:24px 0 0 24px;transform:translateX(105%);padding:36px 36px 48px}}
+  .drawer{visibility:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1),visibility 0s linear .35s}
+  .drawer.on{transform:none;visibility:visible;transition:transform .35s cubic-bezier(.2,.8,.2,1),visibility 0s}
+  .dhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+  .dtag{display:inline-block;width:14px;height:14px;border-radius:4px;background:var(--c);margin-right:8px;vertical-align:-1px}
+  .drawer h2{font-family:Fraunces,serif;font-weight:600;font-size:26px}
+  .close{all:unset;cursor:pointer;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);font-size:18px}
+  .close:focus-visible{outline:3px solid var(--ink)}
+  .dsub{color:var(--muted);font-size:15px;margin-bottom:22px}
+  .proj{border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:16px;background:#fff}
+  /* justified gallery: each photo keeps its own shape; rows fill the width */
+  .gal{--h:140px;--cap:1.5;display:flex;flex-wrap:wrap;gap:8px;padding:0 18px 18px}
+  @media(min-width:900px){.gal{--h:175px;--cap:1.4}}
+  .gal::after{content:"";flex-grow:999}
+  .gal button{all:unset;cursor:zoom-in;--ar:1.4;flex-grow:var(--ar);flex-basis:calc(var(--ar) * var(--h));border-radius:10px;overflow:hidden;background:color-mix(in srgb,var(--c) 25%,#fff);border:1px solid var(--line);max-width:min(100%,calc(var(--ar) * var(--h) * var(--cap)))}
+  .gal button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .gal img{display:block;width:100%;aspect-ratio:var(--ar);object-fit:cover}
+  .gal.one button{flex-grow:0;flex-basis:auto;width:min(100%,calc(var(--ar) * 340px))}
+  .note{display:inline-block;margin-top:10px;font-size:12.5px;color:var(--muted);font-style:italic}
+  .lb{position:fixed;inset:0;z-index:20;background:rgba(20,18,16,.88);display:none;place-items:center;padding:16px;cursor:zoom-out}
+  .lb.on{display:grid}
+  .lb img{max-width:100%;max-height:92vh;border-radius:10px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+  .proj .body{padding:16px 18px 18px}
+  .proj .meta{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .proj h3{font-size:17px;font-weight:600;margin:4px 0 6px}
+  .proj p{font-size:14.5px}
+  .proj audio{width:100%;margin-top:12px}
+  .proj .go{display:inline-block;margin-top:12px;font-size:13px;font-weight:500;text-decoration:none;border-bottom:1.5px solid var(--c);padding-bottom:1px}
+  footer{grid-column:1/-1;text-align:center;color:var(--muted);font-size:13px}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <aside class="profile">
+    <div class="photo" id="photo">S</div>
+    <h1 id="name"></h1>
+    <p class="where" id="where"></p>
+    <div class="now"><span>what's next…</span><p id="now"></p></div>
+    <div class="links" id="links"></div>
+    <a class="cv" id="cv" href="#">Download CV</a>
+  </aside>
+
+  <main class="main">
+    <h2 class="vision" id="vision"></h2>
+    <div class="folders" id="folders"></div>
+  </main>
+
+  <footer>Made by Sera · İzmir, Türkiye</footer>
+</div>
+
+<div class="shade" id="shade"></div>
+<section class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dtitle">
+  <div class="dhead">
+    <h2 id="dtitle"></h2>
+    <button class="close" id="close" aria-label="Close">✕</button>
+  </div>
+  <p class="dsub" id="dsub"></p>
+  <div id="dlist"></div>
+</section>
+<div class="lb" id="lb" role="dialog" aria-label="Photo"><img id="lbimg" alt=""></div>
+
+<script>
+/* =========================================================
+   BÜTÜN METİNLER VE LİNKLER BURADA.
+   Sadece tırnak içindeki yazıları değiştir.
+   Görsel eklemek için: imgs: ["images/a.jpg", "images/b.jpg"]
+     (ilk fotoğraf büyük görünür, diğerleri altında küçük galeri olur)
+   Link eklemek için: link: "https://..."
+   ========================================================= */
+const SITE = {
+  name: "Sera Ertuğ",
+  where: "İzmir, Türkiye · Final-year science high school student",
+  photo: "images/sera.jpg",
+  photoPos: "35% 18%",  // fotoğrafın hangi kısmı ortalansın (yatay dikey)
+  // Sol karttaki el yazısı kutusunun metni
+  now: "My goal is to turn the findings from my research into real products, so they don't stay on paper but end up helping people.",
+  // Sağ üstteki büyük cümle. [köşeli parantez] içindeki kısım sarı ile vurgulanır.
+  vision: "I build interdisciplinary projects that apply [data and AI] to engineering and the sciences.",
+  cv: "sera-ertug-cv.pdf",
+  links: [
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/sera-ertug/" },
+    { label: "GitHub",   href: "https://github.com/seraertug" },
+    { label: "Email",    href: "mailto:seraertug@gmail.com" }
+  ],
+
+  folders: [
+    {
+      title: "AI, Data & Engineering", color: "var(--coral)",
+      sub: "Building things with data and AI, often with people I just met.",
+      projects: [
+        { title: "BulkBargain", meta: "ETH Zurich AI Summer Week · Honorable Mention",
+          text: "Built a group-buying platform for computer parts with my international team in five days. It predicts whether a deal will close. On the last day, we pitched it in a full auditorium to a jury that included people from Tesla and Google.",
+          imgs: ["images/eth-1.jpg", "images/eth-2.jpg", "images/eth-3.jpg"], link: "https://bulkbargain.hebbian.ch" },
+        { title: "Turkcell AI Marathon & Hackathon", meta: "Jury Special Award",
+          text: "This data science and AI program was only for BİLSEM students. After the training, I built an online team with BİLSEM students from different cities across Türkiye, and we worked together remotely. Our task was to improve one of Turkcell's apps (fizy, Turkcell Asistan or Pasaj) using data, AI and software. We passed the first round and were invited to the finals at Turkcell's headquarters in Istanbul, with all costs covered. Our pitch there won the Jury Special Award.",
+          imgs: ["images/turkcell-1.jpg", "images/turkcell-2.jpg", "images/turkcell-3.jpg", "images/turkcell-4.jpg", "images/turkcell-5.jpg", "images/turkcell-6.jpg", "images/turkcell-7.jpg", "images/turkcell-8.jpg"], link: "" },
+        { title: "Inspirit AI Scholars", meta: "International online program · Team project",
+          text: "I was accepted into an international online program with small classes. After the training, we built interdisciplinary data and AI projects and presented them. My team used soil microbiome data and AI to help choose better land for sustainable farming.",
+          imgs: ["images/inspirit.jpg"], link: "" },
+        { title: "Cosmic Acoustics", meta: "Sigma STEAM Olympics · 1st place",
+          text: "The task was to create a work of art by bringing science and technology together. My teammate and I turned telescope images of galaxies into music, using pixel values and the golden ratio.",
+          imgs: ["images/cosmic-1.jpg", "images/cosmic-2.jpg", "images/cosmic-3.jpg", "images/cosmic-4.jpg"], link: "", audio: "" },   // örn. audio: "audio/galaxy.mp3"
+        { title: "A sensor on a tooth", meta: "Conrad Challenge · Conrad Innovator",
+          text: "Designed a tooth-mounted micro-sensor concept to track metabolic health through saliva in real time. We planned the full system, from the sensor to an AI-powered app that warns the user early.",
+          imgs: ["images/conrad-1.jpg", "images/conrad-2.jpg", "images/conrad-3.jpg", "images/conrad-4.jpg"], link: "" },
+        { title: "Robotex International", meta: "Phoenix Team · Software Technologies",
+          text: "2nd in the Aegean region, 3rd in Türkiye, and a place in the world finals in Tallinn.",
+          imgs: ["images/robotex-1.jpg", "images/robotex-2.jpg", "images/robotex-3.jpg"], link: "" },
+        { title: "Software engineering internship", meta: "VESTEL",
+          text: "Joined a real engineering team, reviewed code and learned how large projects actually run.",
+          imgs: ["images/vestel-1.jpg", "images/vestel-2.jpg"], link: "" }
+      ]
+    },
+    {
+      title: "Data → Policy & Impact", color: "var(--green)",
+      sub: "When analysis leaves the page and becomes a decision.",
+      projects: [
+        { title: "A solar energy bill in parliament", meta: "SÜGEP · 2026",
+          text: "Turned our photovoltaic building analysis into a public campaign: 5,000+ signatures and a legislative proposal at the Grand National Assembly of Türkiye.",
+          imgs: ["images/tbmm-1.jpg", "images/tbmm-2.jpg", "images/tbmm-3.jpg", "images/tbmm-4.jpg", "images/tbmm-5.jpg", "images/tbmm-6.jpg", "images/tbmm-7.jpg"],
+          link: "https://www.linkedin.com/feed/update/urn:li:activity:7409541110206898176/" },
+        { title: "A model carbon capture project", meta: "SÜGEP · Global Sustainable Development Congress",
+          text: "Presented our carbon capture model as a speaker at the Global Sustainable Development Congress.",
+          imgs: ["images/gsdc-1.jpg", "images/gsdc-2.jpg", "images/gsdc-3.jpg", "images/gsdc-4.jpg", "images/gsdc-5.jpg", "images/gsdc-6.jpg", "images/gsdc-7.jpg", "images/gsdc-8.jpg", "images/gsdc-9.jpg", "images/gsdc-10.jpg"],
+          link: "https://www.linkedin.com/posts/sera-ertug_the-gsdc2024-carboncapture-activity-7208846941252710400-LODt" },
+        { title: "Global Youth Statement", meta: "COP30 · 2025",
+          text: "Contributed to the joint statement of 30,000+ young people from 150+ countries.",
+          imgs: ["images/gys.jpg"],
+          link: "https://www.linkedin.com/posts/sera-ertug_cop30-gys2025-cop30-activity-7398018956432814080-FhQx" }
+      ]
+    },
+    {
+      title: "Independent Research", color: "var(--blue)",
+      sub: "Questions I chose myself and followed to the end.",
+      projects: [
+        { title: "Childhood heat and the adult brain", meta: "Solo research · 2026",
+          text: "Linked two centuries of Prague climate records with brain-imaging data to study how childhood temperature exposure relates to adult brain connectivity.",
+          imgs: [], link: "", note: "Paper available on request." },
+        { title: "Fractal fat and lean PCOS", meta: "Solo research · ongoing",
+          text: "Measured the fractal texture of abdominal fat, independent of its amount, as a possible marker for lean PCOS.",
+          imgs: [], link: "", note: "Paper available on request." },
+        { title: "Invisible Probes of Marble", meta: "CERN Beamline for Schools · 2025",
+          text: "With my team, I planned an experiment on how marble purity and thickness change the way muons scatter, wrote a research proposal, and tried out different data analysis methods.",
+          imgs: ["images/beamline-1.jpg", "images/beamline-2.jpg", "images/beamline-3.jpg"], link: "" }
+      ]
+    },
+    {
+      title: "Beyond", color: "var(--plum)",
+      sub: "The things that shaped how I work.",
+      projects: [
+        { title: "Rhythmic gymnastics", meta: "Ages 6–12 · national and international awards",
+          text: "Six years of training, 4–5 hours a day. It taught me how to fail and try again.",
+          imgs: ["images/gym-1.jpg", "images/gym-2.jpg", "images/gym-3.jpg", "images/gym-4.jpg", "images/gym-5.jpg", "images/gym-6.jpg", "images/gym-7.jpg"], link: "" },
+        { title: "Tennis", meta: "Since I was four",
+          text: "The sport I came back to. I still play in tournaments.",
+          imgs: ["images/tennis-1.jpg", "images/tennis-2.jpg", "images/tennis-3.jpg", "images/tennis-4.jpg"], link: "" },
+        { title: "Piano", meta: "ABRSM Grade 5 with Merit",
+          text: "I started playing the piano very young, using colored notes, and I have read regular sheet music since primary school. It has been part of my life for a long time. Outstanding Performance award at the Mozart Academy International Piano Festival.",
+          imgs: [], link: "" }
+      ]
+    }
+  ]
+};
+
+/* ---------- render (buradan aşağısına dokunmana gerek yok) ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+$("name").textContent = "Hey, I'm " + SITE.name + ".";
+$("where").textContent = SITE.where;
+$("now").textContent = SITE.now;
+$("cv").href = SITE.cv;
+if (SITE.photo) $("photo").innerHTML = `<img src="${esc(SITE.photo)}" alt="${esc(SITE.name)}" style="object-position:${esc(SITE.photoPos || "50% 30%")}">`;
+const imgsOf = p => (p.imgs || (p.img ? [p.img] : [])).filter(Boolean);
+$("links").innerHTML = SITE.links.map(l => `<a href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
+$("vision").innerHTML = esc(SITE.vision).replace(/\[(.+?)\]/g, "<mark>$1</mark>");
+
+$("folders").innerHTML = SITE.folders.map((f, i) => {
+  const firsts = f.projects.map(p => imgsOf(p)[0]).filter(Boolean);
+  const rest = f.projects.flatMap(p => imgsOf(p).slice(1));
+  const imgs = firsts.concat(rest);
+  const paper = n => imgs[n] ? `<img src="${esc(imgs[n])}" alt="">` : "";
+  return `<button class="folder" style="--c:${f.color}" data-i="${i}" aria-label="Open ${esc(f.title)}">
+      <div class="back"></div>
+      <div class="paper p1">${paper(0)}</div>
+      <div class="paper p2">${paper(1)}</div>
+      <div class="front"><b>${esc(f.title)}</b><small>${f.projects.length} projects</small></div>
+    </button>`;
+}).join("");
+
+let lastFocus = null;
+function openFolder(i){
+  const f = SITE.folders[i];
+  const d = $("drawer");
+  d.style.setProperty("--c", f.color);
+  $("dtitle").innerHTML = `<span class="dtag"></span>${esc(f.title)}`;
+  $("dsub").textContent = f.sub;
+  $("dlist").innerHTML = f.projects.map(p => {
+    const im = imgsOf(p);
+    return `
+    <article class="proj">
+      <div class="body">
+        <div class="meta">${esc(p.meta)}</div>
+        <h3>${esc(p.title)}</h3>
+        <p>${esc(p.text)}</p>
+        ${p.audio ? `<audio controls src="${esc(p.audio)}"></audio>` : ""}
+        ${p.link ? `<a class="go" href="${esc(p.link)}" target="_blank" rel="noopener">See it →</a>` : ""}
+        ${p.note ? `<span class="note">${esc(p.note)}</span>` : ""}
+      </div>
+      ${im.length ? `<div class="gal${im.length === 1 ? " one" : ""}">${im.map(s => `<button data-zoom="${esc(s)}" aria-label="Open photo: ${esc(p.title)}"><img src="${esc(s)}" alt="${esc(p.title)}"></button>`).join("")}</div>` : ""}
+    </article>`;
+  }).join("");
+  // her fotoğraf kendi en-boy oranını alsın
+  $("dlist").querySelectorAll(".gal img").forEach(img => {
+    const set = () => { if (img.naturalWidth) img.parentElement.style.setProperty("--ar", (img.naturalWidth / img.naturalHeight).toFixed(3)); };
+    if (img.complete) set(); else img.addEventListener("load", set, { once: true });
+  });
+  lastFocus = document.activeElement;
+  d.classList.add("on"); $("shade").classList.add("on");
+  d.scrollTop = 0; $("close").focus();
+  history.replaceState(null, "", "#" + i);
+}
+function closeFolder(){
+  $("drawer").classList.remove("on"); $("shade").classList.remove("on");
+  history.replaceState(null, "", location.pathname);
+  if (lastFocus) lastFocus.focus();
+}
+document.querySelectorAll(".folder").forEach(b => b.addEventListener("click", () => openFolder(+b.dataset.i)));
+$("close").addEventListener("click", closeFolder);
+$("shade").addEventListener("click", closeFolder);
+$("dlist").addEventListener("click", e => {
+  const z = e.target.closest("[data-zoom]");
+  if (!z) return;
+  $("lbimg").src = z.dataset.zoom; $("lb").classList.add("on");
+});
+$("lb").addEventListener("click", () => $("lb").classList.remove("on"));
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  if ($("lb").classList.contains("on")) $("lb").classList.remove("on"); else closeFolder();
+});
+const h = parseInt(location.hash.slice(1), 10);
+if (!isNaN(h) && SITE.folders[h]) openFolder(h);
+</script>
+</body>
+</html>
