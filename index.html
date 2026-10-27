@@ -246,7 +246,9 @@ $("name").textContent = "Hey, I'm " + SITE.name + ".";
 $("where").textContent = SITE.where;
 $("now").textContent = SITE.now;
 $("cv").href = SITE.cv;
-if (SITE.photo) $("photo").innerHTML = `<img src="${esc(SITE.photo)}" alt="${esc(SITE.name)}" style="object-position:${esc(SITE.photoPos || "50% 30%")}">`;
+// küçük versiyon: images/x.jpg -> images/thumbs/x.jpg (yoksa asıl dosya kullanılır)
+const thumb = s => /^images\/[^/]+\.jpg$/.test(s) ? s.replace("images/", "images/thumbs/") : s;
+if (SITE.photo) $("photo").innerHTML = `<img src="${esc(thumb(SITE.photo))}" alt="${esc(SITE.name)}" style="object-position:${esc(SITE.photoPos || "50% 30%")}">`;
 const imgsOf = p => (p.imgs || (p.img ? [p.img] : [])).filter(Boolean);
 $("links").innerHTML = SITE.links.map(l => `<a href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
 $("vision").innerHTML = esc(SITE.vision).replace(/\[(.+?)\]/g, "<mark>$1</mark>");
@@ -255,7 +257,7 @@ $("folders").innerHTML = SITE.folders.map((f, i) => {
   const firsts = f.projects.map(p => imgsOf(p)[0]).filter(Boolean);
   const rest = f.projects.flatMap(p => imgsOf(p).slice(1));
   const imgs = firsts.concat(rest);
-  const paper = n => imgs[n] ? `<img src="${esc(imgs[n])}" alt="">` : "";
+  const paper = n => imgs[n] ? `<img src="${esc(thumb(imgs[n]))}" alt="" decoding="async">` : "";
   return `<button class="folder" style="--c:${f.color}" data-i="${i}" aria-label="Open ${esc(f.title)}">
       <div class="back"></div>
       <div class="paper p1">${paper(0)}</div>
@@ -283,7 +285,7 @@ function openFolder(i){
         ${p.link ? `<a class="go" href="${esc(p.link)}" target="_blank" rel="noopener">See it →</a>` : ""}
         ${p.note ? `<span class="note">${esc(p.note)}</span>` : ""}
       </div>
-      ${im.length ? `<div class="gal${im.length === 1 ? " one" : ""}">${im.map(s => `<button data-zoom="${esc(s)}" aria-label="Open photo: ${esc(p.title)}"><img src="${esc(s)}" alt="${esc(p.title)}"></button>`).join("")}</div>` : ""}
+      ${im.length ? `<div class="gal${im.length === 1 ? " one" : ""}">${im.map(s => `<button data-zoom="${esc(s)}" aria-label="Open photo: ${esc(p.title)}"><img src="${esc(thumb(s))}" alt="${esc(p.title)}" decoding="async" onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.parentElement.dataset.zoom}"></button>`).join("")}</div>` : ""}
     </article>`;
   }).join("");
   // her fotoğraf kendi en-boy oranını alsın
@@ -316,6 +318,13 @@ document.addEventListener("keydown", e => {
 });
 const h = parseInt(location.hash.slice(1), 10);
 if (!isNaN(h) && SITE.folders[h]) openFolder(h);
+// sayfa açıldıktan sonra küçük fotoğrafları arka planda önceden yükle
+window.addEventListener("load", () => {
+  const all = SITE.folders.flatMap(f => f.projects.flatMap(imgsOf)).map(thumb);
+  let i = 0;
+  const next = () => { if (i >= all.length) return; const im = new Image(); im.onload = im.onerror = next; im.src = all[i++]; };
+  for (let k = 0; k < 4; k++) next();
+});
 </script>
 </body>
 </html>
